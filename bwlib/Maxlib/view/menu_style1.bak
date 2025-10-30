@@ -1,0 +1,972 @@
+/****************************************************************************
+        ***           ***                      MAXLIB-GRAPHIC
+       ** **        ** **
+      **  **       **   **    THE MAXLIB FOR IMAGE SHOW PROCESS
+     **    **     **    **                    
+    **     **    **      **           MAX mesage dialog MANAGEMENT
+   **       **  **       **
+  **         ** **        **           (C) COPYRIGHT 2016 MAX
+**           ***           **    
+
+* File Name   : dialog_message.c
+* Author      : Mark.Douglas 
+* Version     : V0100
+* Date        : 05/25/2016
+* Description : This file for maxlib dialog_message managemant
+*               
+* History     :
+* 2016-05-25  : 
+*      <1>.This is created by mark,set version as v0100.
+*      <2>.Add basic functions.
+******************************************************************************/
+
+#include "./../max.h"
+#include "./../maxlib.h"
+#include "../../../ax32_platform_demo/resource/resource.h"
+
+#define  MENU_STYLE1_OP_MAX      4
+#define  MENU_PAGE_MAX             2    // two  type of menu,main menu,sub menu
+
+#define  MAIN_MENU       0
+#define  SUB_MENU        1
+
+#define  MENU_ICON_DEFAULT_H      32
+#define  MENU_ICON_DEFAULT_W      32
+
+#define  MENU_STR_DEFAULT_H       32
+#define  MENU_STR_DEFAULT_W       8
+
+#define  MENU_STAT_CLOSE           0
+#define  MENU_STAT_CREAT           1
+#define  MENU_STAT_LAYOUT         2
+#define  MENU_STAT_SHOW            3
+
+typedef struct Menu_Style1_S
+{
+	u8_t stat;
+	u8_t curMenu;
+    u8_t curLevel;
+    u8_t curOption;
+	
+	u8_t suboption;	
+	u8_t pageCnt;
+
+	u8_t optionCnt[MENU_PAGE_MAX];
+//--------topbar r id-----------------
+	s32_t titleicon[MENU_PAGE_MAX][2];
+	s32_t titlename[MENU_PAGE_MAX];
+//---------menu table--------------	
+	MENU_INFO_T *menutable[MENU_PAGE_MAX];
+
+//---------------menu size & position
+    u16_t mx;    // menu start x position
+	u16_t my;    //menu start y position
+    u16_t tpw;  //topbar width
+	u16_t tph;  //topbar height
+	u16_t opw;  //option panel width
+    u16_t oph;  //option panel height
+    u16_t bpw;  //bottom bar width
+	u16_t bph;  //bottom bar height
+	
+//--------menu ui-------------------	
+    u32_t icon_ok;
+    u32_t icon_back;
+
+	s32_t topbar;
+	s32_t panel;
+	
+	s32_t bottombar;	
+	
+	s32_t mainicon;
+	s32_t subicon;
+	s32_t name;
+	s32_t back;
+	s32_t pagenum;
+    s32_t selbar;	
+	s32_t op_name[MENU_STYLE1_OP_MAX];
+	s32_t op_icon[MENU_STYLE1_OP_MAX];
+
+	s32_t layout;
+	s32_t tempview;
+}Menu_Style1_T;
+
+
+
+#if ((MAXLIB_MENU_USE >0)&&(CFG_MENU_STYLE1_USE>0))
+enum
+{
+	VIEW_MENU_TOPBAR=0x10000,
+	VIEW_MENU_PANEL,
+	VIEW_MENU_BOTTOMBAR,
+	VIEW_MENU_MICON,
+	VIEW_MENU_SICON,
+	VIEW_MENU_NAME,
+	VIEW_MENU_BACK,
+	VIEW_MENU_PAGENUM,
+	VIEW_MENU_SELBAR,
+	VIEW_MENU_OP0NAME,
+	VIEW_MENU_OP1NAME,
+	VIEW_MENU_OP2NAME,
+	VIEW_MENU_OP3NAME,
+	VIEW_MENU_OP0ICON,
+	VIEW_MENU_OP1ICON,
+	VIEW_MENU_OP2ICON,
+	VIEW_MENU_OP3ICON
+};
+
+#define  MENU_STYLE1_ICON_OK          R_ID_ICON_BUTTONOK
+#define  MENU_STYLE1_ICON_BACK       R_ID_ICON_BUTTONBACK
+#define  MENU_STYLE1_BAR_TOP          R_ID_ICON_PANELUP
+#define  MENU_STYLE1_BAR_BOTTOM     R_ID_ICON_PANELDOWN
+#define  MENU_STYLE1_BAR_OPTION1    R_ID_ICON_PANELOPTION2
+#define  MENU_STYLE1_BAR_OPTION2    R_ID_ICON_PANELOPTION3
+
+
+static LAYOUT_T menu_style1_layout[]=
+{
+	{VIEW_MENU_TOPBAR,    {VIEW_TYPE_IMAGE,      VIEW_VISIABLE,   MENU_STYLE1_BAR_TOP,0,0}},
+	{VIEW_MENU_PANEL,      {VIEW_TYPE_DRAWRECT, VIEW_VISIABLE,    0,                         0,0}},
+	{VIEW_MENU_BOTTOMBAR,{VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    MENU_STYLE1_BAR_BOTTOM,0,0}},
+	{VIEW_MENU_MICON,      {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    0,                         0,0}},
+	{VIEW_MENU_SICON,      {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    0,                         0,0}},
+	{VIEW_MENU_NAME,       {VIEW_TYPE_STRING,    VIEW_VISIABLE,    0,                         0,0}},
+	{VIEW_MENU_BACK,       {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    MENU_STYLE1_ICON_BACK,0,0}},
+	{VIEW_MENU_PAGENUM,	 {VIEW_TYPE_TEXT,	      VIEW_VISIABLE,    0,						  0,0}},
+	{VIEW_MENU_SELBAR,    {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,   MENU_STYLE1_BAR_OPTION1,0,0}},	
+	{VIEW_MENU_OP0NAME,	 {VIEW_TYPE_STRING,	  VIEW_VISIABLE,    0,						  0,0}},
+	{VIEW_MENU_OP1NAME,	 {VIEW_TYPE_STRING,	  VIEW_VISIABLE,    0,						  0,0}},
+	{VIEW_MENU_OP2NAME,	 {VIEW_TYPE_STRING,	  VIEW_VISIABLE,    0,						  0,0}},
+	{VIEW_MENU_OP3NAME,	 {VIEW_TYPE_STRING,	  VIEW_VISIABLE,    0,						  0,0}},
+	{VIEW_MENU_OP0ICON,  {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    0,						      0,0}},
+	{VIEW_MENU_OP1ICON,  {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    0,						      0,0}},
+	{VIEW_MENU_OP2ICON,  {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    0,						      0,0}},
+	{VIEW_MENU_OP3ICON,  {VIEW_TYPE_IMAGE,     VIEW_VISIABLE,    0,						      0,0}},
+
+};
+
+
+Menu_Style1_T menuStyle1;
+
+int menuStyle1Init(void)
+{
+	int i;
+	
+	menuStyle1.stat = MENU_STAT_CLOSE;
+
+	for(i=0;i<MENU_PAGE_MAX;i++)
+	    menuStyle1.menutable[i] = NULL;
+	
+	return 0;
+}
+
+s32_t menuStyle1Create(u32_t handle)
+{
+	if(menuStyle1.stat!=MENU_STAT_CLOSE)
+		return -1;
+	menuStyle1Init();
+
+    menuStyle1.stat = MENU_STAT_CREAT;
+	return 0;
+}
+s32_t menuStyle1Destory(u32_t handle)
+{
+
+	if(handle!=MENU_TYPE_STYL1)
+		return -1;
+	
+	if(menuStyle1.stat ==MENU_STAT_CLOSE)
+		return 1;
+    layoutSetOffContent(menuStyle1.layout);
+    menuStyle1.stat = MENU_STAT_CLOSE;
+	return 0;
+}
+
+
+int menuStyle1Show(void)
+{
+	int mx,my,mw,mh,i,j;
+    u16_t w,h,tph,tbh,oph;
+	
+	MENU_INFO_T *menu;
+	
+    if(menuStyle1.stat >= MENU_STAT_LAYOUT)
+		return 1;
+	menuStyle1.tempview = -1;
+//-------------count main menu------------------------------
+
+    for(i=0;i<MENU_PAGE_MAX;i++)
+    {
+		menu = menuStyle1.menutable[i];
+		if(menu == NULL)
+		 	continue;
+		menuStyle1.titleicon[i][0] = menuStyle1.menutable[i]->icon;
+		menuStyle1.titleicon[i][1] = menuStyle1.menutable[i]->icon+1;
+		menuStyle1.titlename[i] = menuStyle1.menutable[i]->name;	
+        menuStyle1.optionCnt[i] = 0;
+		menu++;
+		j = 0;
+		while(menu!=NULL && menu->option_id!=0xff)
+		{
+			j++;
+			menu++;
+		}
+		menuStyle1.optionCnt[i] = j;
+    }
+	debug_print("menu : style1 -> main menu cnt = %d,sub menu cnt = %d\n",menuStyle1.optionCnt[MAIN_MENU],menuStyle1.optionCnt[SUB_MENU]);	
+
+	if(menuStyle1.optionCnt[MAIN_MENU] ==0 || menuStyle1.optionCnt[SUB_MENU]==0)
+		return -1;
+	menu = menuStyle1.menutable[MAIN_MENU]+1;// the first invliad menu information
+//-------------layout----------------------------------------
+    menuStyle1.layout = layoutSetOnContent(menu_style1_layout);
+
+    menuStyle1.topbar       = layoutFindViewById(VIEW_MENU_TOPBAR);
+	menuStyle1.panel        = layoutFindViewById(VIEW_MENU_PANEL);
+	menuStyle1.bottombar  = layoutFindViewById(VIEW_MENU_BOTTOMBAR);
+	menuStyle1.mainicon   = layoutFindViewById(VIEW_MENU_MICON);
+	menuStyle1.subicon     = layoutFindViewById(VIEW_MENU_SICON);
+	menuStyle1.name         = layoutFindViewById(VIEW_MENU_NAME);
+	menuStyle1.back         = layoutFindViewById(VIEW_MENU_BACK);
+	menuStyle1.pagenum     = layoutFindViewById(VIEW_MENU_PAGENUM);
+
+	menuStyle1.selbar      = layoutFindViewById(VIEW_MENU_SELBAR);
+
+	for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	    menuStyle1.op_name[i]  = layoutFindViewById(VIEW_MENU_OP0NAME+i);
+	for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	    menuStyle1.op_icon[i]  = layoutFindViewById(VIEW_MENU_OP0ICON+i);
+
+//-----------view default settting-------------------------------
+	//viewSetFillColor(menuStyle1.topbar,     R_COLOR_BLUE);
+    viewSetFillColor(menuStyle1.panel,      R_COLOR_TBLACK);
+	//viewSetFillColor(menuStyle1.bottombar,R_COLOR_BLUE);
+    viewSetFillColor(menuStyle1.name,       R_COLOR_WHITE);
+	viewSetFillColor(menuStyle1.pagenum,   R_COLOR_WHITE);
+   // viewSetFillColor(menuStyle1.selbar,     R_COLOR_YELLOW);
+    viewSetResId(menuStyle1.back,menuStyle1.icon_back);
+	
+   for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	   viewSetFillColor(menuStyle1.op_name[i],R_COLOR_WHITE);
+
+	viewSetResId(menuStyle1.mainicon,menuStyle1.titleicon[MAIN_MENU][0]);
+	viewSetResId(menuStyle1.subicon,menuStyle1.titleicon[SUB_MENU][0]);
+//------------position count----------------------------------------------
+
+//------------menu panel size & position------------------------------------
+    mw = R_SCREEN_WIDTH;  // screen width
+	if(mw >= 320)
+		mw = 320;
+	mh = R_SCREEN_HEIGHT; // screen height
+	if(mh >= 240)
+		mh = 240;
+
+	mx = (R_SCREEN_WIDTH-mw)>>1;  // x position center align
+	my = (R_SCREEN_HEIGHT-mh)>>1; // y position center align
+	menuStyle1.mx = mx;
+	menuStyle1.my = my;
+//-----top bar size
+	if(R_getSize(menuStyle1.titleicon[MAIN_MENU][0],&w,&h)<0)
+	{
+		h = MENU_ICON_DEFAULT_H;
+		w = MENU_ICON_DEFAULT_W;
+	}
+	tph = h+(h>>2);
+	menuStyle1.tph = tph;
+	menuStyle1.tpw = mw;   
+//-----bottom size
+	if(R_getSize(viewGetResId(menuStyle1.back),&w,&h)<0)
+	{
+		h = MENU_ICON_DEFAULT_H;
+		w = MENU_ICON_DEFAULT_W;
+	}
+	tbh =  h+(h>>2);
+    menuStyle1.bph = tbh;
+	menuStyle1.bpw = mw;
+//-----option panel size
+	mh = mh-tbh-tph;   // option panel size   
+	oph = mh%MENU_STYLE1_OP_MAX;
+	if(oph !=0)
+		oph = mh-oph;
+	
+	menuStyle1.opw = mw;
+	menuStyle1.oph = oph;
+
+    mh = tph+oph+tbh;
+	debug_print("menu : style1 show -> width:%d,h: %d,%d,%d,",mw,tph,oph,tbh);
+//----------------------top bar position------------------------------------
+    if(R_getSize(menuStyle1.titleicon[MAIN_MENU][0],&w,&h)<0)
+	{
+		h = MENU_ICON_DEFAULT_H;
+		w = MENU_ICON_DEFAULT_W;
+	}
+	viewSetPosition(menuStyle1.topbar,mx,my);
+	viewSetSize(menuStyle1.topbar,mw,tph);
+
+	viewSetPosition(menuStyle1.mainicon,mx+4,my+(tph-h)/2);  // right shift 4-pixel
+	viewSetPosition(menuStyle1.subicon,mx+w+8,my+(tph-h)/2); // right shift 4-pixel + interval  4-pixel
+
+	if(R_getSize(menuStyle1.titlename[MAIN_MENU],&w,&h)<0)
+	{
+		w = MENU_STR_DEFAULT_W;
+		h = MENU_STR_DEFAULT_H;		
+	}
+//	debug_print("menu : style1 show -> top bar info : pos(%d,%d),size(%d,%d)\n",mx,my,menuStyle1.tpw,menuStyle1.tph);
+	viewSetPosition(menuStyle1.name,mx+(mw-w-2),my+(tph-h)/2);
+//-----------------------bottom bar position--------------------------------
+    if(R_getSize(viewGetResId(menuStyle1.back),&w,&h)<0)
+	{
+		h = MENU_ICON_DEFAULT_H;
+		w = MENU_ICON_DEFAULT_W;
+	}   
+	viewSetPosition(menuStyle1.bottombar,mx,my+oph+tph);
+	viewSetSize(menuStyle1.bottombar,mw,tbh);
+
+	viewSetPosition(menuStyle1.back,mx,my+oph+tph+(tbh-h)/2);  //  my+(mh-tbh) -> bottom bar y position ,(tbh-h)/2 ->y center align
+	if(R_getAsciiStringSize("0/0",&w,&h,R_FONT_DEFAULT)<0)
+	{
+		h = MENU_ICON_DEFAULT_H;
+		w = MENU_ICON_DEFAULT_W;
+	}
+    viewSetPosition(menuStyle1.pagenum,mx+(mw-w-2),my+oph+tph+(tbh-h)/2); // (mw-w-2) -> x  position align to right at 2 pixel    
+//----------------------option position------------------------------------	
+	viewSetPosition(menuStyle1.panel,mx,my+tph);
+	viewSetSize(menuStyle1.panel,mw,oph);
+
+	oph = oph/MENU_STYLE1_OP_MAX;  // option bar height
+
+	viewSetSize(menuStyle1.selbar,mw,oph);
+	viewSetPosition(menuStyle1.selbar,mx,my+tph);  // the first selected option	
+    debug_print("%d\n",oph);
+	if(R_getSize(menu->icon,&w,&h)<0)
+	{
+		h = MENU_ICON_DEFAULT_H;
+		w = MENU_ICON_DEFAULT_W;
+	}
+    if(h>oph)
+	{
+		return -1;
+	}
+	for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	{
+		 viewSetPosition(menuStyle1.op_icon[i],mx+2,my+tph+oph*i+(oph-h)/2);
+	}
+	
+	if(R_getSize(menu->name,NULL,&h)<0)
+	{
+		h = MENU_STR_DEFAULT_H;
+	}
+	if(h>oph)
+	{
+		return -1;
+	}
+	for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	{
+		 viewSetPosition(menuStyle1.op_name[i],mx+4+w,my+tph+oph*i+4+(oph-h)/2);
+	}
+
+    menuStyle1.stat = MENU_STAT_LAYOUT;
+	return 0;
+}
+static int menuStyle1SetTop(int index,s32_t name)
+{
+	u16_t w,h;
+
+	viewSetFlag(menuStyle1.topbar,VIEW_CTRL_UPDATE);
+
+    viewSetResId(menuStyle1.mainicon,menuStyle1.titleicon[MAIN_MENU][index^1]);
+	viewSetResId(menuStyle1.subicon,menuStyle1.titleicon[SUB_MENU][index]);
+	viewSetFlag(menuStyle1.mainicon,VIEW_CTRL_UPDATE);
+	viewSetFlag(menuStyle1.subicon,VIEW_CTRL_UPDATE);
+	
+	viewSetResId(menuStyle1.name,name);
+	
+    if(viewGetSize(menuStyle1.name,&w,&h))
+	{
+		w = MENU_STR_DEFAULT_W;
+		h = MENU_STR_DEFAULT_H;
+	}
+	viewSetPosition(menuStyle1.name,menuStyle1.mx+(menuStyle1.tpw-w-2),menuStyle1.my+(menuStyle1.tph-h)/2);
+
+	return index;
+}
+static int menuStyle1SetBottom(int index,int level)
+{
+	s16_t x,y,page;
+	u16_t w,h;
+    char pagestr[4];
+
+
+	if(menuStyle1.curLevel != level)
+	{
+		if(level)
+		{		
+			viewSetType(menuStyle1.pagenum,VIEW_TYPE_IMAGE);
+			viewSetResId(menuStyle1.pagenum,menuStyle1.icon_ok);
+			viewSetFillColor(menuStyle1.pagenum,0);
+		}
+		else
+		{
+			viewSetType(menuStyle1.pagenum,VIEW_TYPE_TEXT);
+		    viewSetFillColor(menuStyle1.pagenum,R_COLOR_WHITE);
+		}
+	}
+	else if(menuStyle1.stat>=MENU_STAT_SHOW)  
+	{
+		if((index/MENU_STYLE1_OP_MAX) == (menuStyle1.curOption/MENU_STYLE1_OP_MAX))  // no need update bottom bar
+			return 1;
+	}
+	
+	if(level == 0)
+	{
+		page = menuStyle1.optionCnt[menuStyle1.curMenu];
+
+		pagestr[0] = index/MENU_STYLE1_OP_MAX +'1'; // from 1
+		pagestr[1] = '/';
+		pagestr[3] = 0;;
+		pagestr[2] = (page+MENU_STYLE1_OP_MAX-1)/MENU_STYLE1_OP_MAX+'0';
+		viewSetText(menuStyle1.pagenum,pagestr,3);	
+	}
+	if(viewGetSize(menuStyle1.pagenum,&w,&h)<0)
+	{
+		w = MENU_ICON_DEFAULT_W;
+		h = MENU_ICON_DEFAULT_H;
+	}
+	x = menuStyle1.mx;
+	y = menuStyle1.my+menuStyle1.tph+menuStyle1.oph;
+	viewSetPosition(menuStyle1.pagenum,x+(menuStyle1.bpw-w-2),y+(menuStyle1.bph-h)/2);
+	
+	viewSetFlag(menuStyle1.back,VIEW_CTRL_UPDATE);
+	viewSetFlag(menuStyle1.bottombar,VIEW_CTRL_UPDATE);
+
+	
+    return 0;	
+}
+static void menuStyl1OpPanel(u16_t w,u16_t h,s16_t x,s16_t y,u8_t level)
+{
+	if(level==0)
+	{
+		viewSetType(menuStyle1.panel,VIEW_TYPE_DRAWRECT);
+		viewSetFillColor(menuStyle1.panel,R_COLOR_TBLACK);
+
+	}
+	else
+	{
+		viewSetType(menuStyle1.panel,VIEW_TYPE_DRAWRECTB);
+		viewSetFillColor(menuStyle1.panel,R_COLOR_TRANSFER);
+		viewSetBorderColor(menuStyle1.panel,R_COLOR_BLACK);
+	}
+
+	viewSetSize(menuStyle1.panel,w,h);
+	viewSetPosition(menuStyle1.panel,x,y);
+}
+static int menuStyle1SetOption(int index,int level)
+{
+	u16_t page,i,w,h,oph;
+	s16_t x,y;
+	MENU_INFO_T *menu;
+
+	menu = menuStyle1.menutable[menuStyle1.curMenu]+1;	
+	page = menuStyle1.optionCnt[menuStyle1.curMenu];
+
+	if(level)
+		goto MENU_LEVEL2;
+
+	if(index>=page)
+		return -1;
+    menu+=(index/MENU_STYLE1_OP_MAX)*MENU_STYLE1_OP_MAX;
+
+    index = index%MENU_STYLE1_OP_MAX;
+
+    oph = menuStyle1.oph/MENU_STYLE1_OP_MAX;
+    if(menuStyle1.curLevel != level)
+    {
+/*		viewSetType(menuStyle1.panel,VIEW_TYPE_DRAWRECT);
+		viewSetFillColor(menuStyle1.panel,R_COLOR_TBLACK);
+		viewSetSize(menuStyle1.panel,menuStyle1.opw,menuStyle1.oph);
+		viewSetPosition(menuStyle1.panel,menuStyle1.mx,menuStyle1.my+menuStyle1.tph);
+*/
+		menuStyl1OpPanel(menuStyle1.opw,menuStyle1.oph,menuStyle1.mx,menuStyle1.my+menuStyle1.tph,0);
+
+		viewSetSize(menuStyle1.selbar,menuStyle1.opw,oph); 
+    }
+	
+	viewSetPosition(menuStyle1.selbar,menuStyle1.mx,menuStyle1.my+menuStyle1.tph+index*oph);
+	
+	for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	{
+		if(menu->option_id == MENU_END)
+			break;
+		if(index == i)
+		{
+			viewSetFillColor(menuStyle1.op_icon[i],R_COLOR_BLUE);
+			viewSetFillColor(menuStyle1.op_name[i],R_COLOR_BLUE);
+		}
+		else
+		{
+			viewSetFillColor(menuStyle1.op_name[i],R_COLOR_WHITE);
+			viewSetFillColor(menuStyle1.op_icon[i],0);
+		}
+		viewSetResId(menuStyle1.op_icon[i],menu->icon);
+		viewSetResId(menuStyle1.op_name[i],menu->name);
+		viewSetVisiable(menuStyle1.op_icon[i],VIEW_VISIABLE);
+		viewSetVisiable(menuStyle1.op_name[i],VIEW_VISIABLE);
+		menu++;
+	}
+	menuStyle1.pageCnt = i;
+	for(;i<MENU_STYLE1_OP_MAX;i++)
+	{
+		viewSetVisiable(menuStyle1.op_icon[i],VIEW_INVISIABLE);
+		viewSetVisiable(menuStyle1.op_name[i],VIEW_INVISIABLE);
+	}
+
+	if(menuStyle1.curLevel != level)
+	{
+		 viewGetSize(menuStyle1.op_icon[0],&w,NULL);
+		 viewGetSize(menuStyle1.op_name[0],NULL,&h);
+		 for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+		 {
+			viewSetPosition(menuStyle1.op_name[i],menuStyle1.mx+4+w,menuStyle1.my+menuStyle1.tph+i*oph+(oph-h)/2);
+		 }	
+	}
+    goto OPTION_END;
+MENU_LEVEL2:
+    menu += menuStyle1.curOption;
+    page = (index/MENU_STYLE1_OP_MAX)*MENU_STYLE1_OP_MAX;
+    index = index%MENU_STYLE1_OP_MAX;
+
+    viewGetSize(menuStyle1.op_icon[0],&w,&h);
+	w = menuStyle1.opw-w-2;
+	h = menuStyle1.oph;
+	x = menuStyle1.mx+menuStyle1.opw-w;
+	y = menuStyle1.my+menuStyle1.tph;
+
+	oph = (h-(CFG_DRAW_W_LINE<<1))/MENU_STYLE1_OP_MAX;
+    if(menuStyle1.curLevel != level)
+    {
+/*		viewSetType(menuStyle1.panel,VIEW_TYPE_DRAWRECTB);
+		viewSetFillColor(menuStyle1.panel,R_COLOR_TRANSFER);
+		viewSetBorderColor(menuStyle1.panel,R_COLOR_BLACK);
+
+		viewSetPosition(menuStyle1.panel,x,y);	
+		viewSetSize(menuStyle1.panel,w,h);		
+*/
+		menuStyl1OpPanel(w,h,x,y,1);
+
+		viewSetSize(menuStyle1.selbar,w-(CFG_DRAW_W_LINE<<1),oph);
+			
+    }
+    
+	viewSetPosition(menuStyle1.selbar,x+CFG_DRAW_W_LINE,y+CFG_DRAW_W_LINE+oph*index);
+	for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+	{
+		if(menu->options <=(i+page))
+			break;
+		if(index == i)
+		{
+			viewSetFillColor(menuStyle1.op_name[i],R_COLOR_BLUE);
+		}
+		else
+		{
+			viewSetFillColor(menuStyle1.op_name[i],R_COLOR_WHITE);
+		}
+		viewSetResId(menuStyle1.op_name[i],menu->subname[i+page]);
+		viewSetVisiable(menuStyle1.op_name[i],VIEW_VISIABLE);
+	}
+    menuStyle1.pageCnt = i;
+    for(;i<MENU_STYLE1_OP_MAX;i++)
+	{
+		viewSetVisiable(menuStyle1.op_name[i],VIEW_INVISIABLE);
+	}
+	if(menuStyle1.curLevel != level)
+	{
+		 viewGetSize(menuStyle1.op_name[0],NULL,&h);
+		 for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+		 {
+			viewSetPosition(menuStyle1.op_name[i],x+CFG_DRAW_W_LINE+2,y+CFG_DRAW_W_LINE+oph*i+((oph-h)>>1));
+		 }	
+	}
+OPTION_END:
+	
+	viewSetFlag(menuStyle1.panel,VIEW_CTRL_UPDATE);
+	viewSetFlag(menuStyle1.selbar,VIEW_CTRL_UPDATE);
+	return menuStyle1.pageCnt;
+}
+s32_t menuStyle1DateTimeSet(MENU_TIME_T *mtime,u8_t index)
+{
+    char timestring[20];
+	u8_t idxtable[6] = {0,5,8,11,14,17};
+    u16_t w,h,oph,i;
+	s16_t x,y;
+
+	if(mtime == NULL && menuStyle1.tempview>=0)
+	{
+		viewRelease(menuStyle1.tempview);
+		menuStyle1.tempview = -1;
+		for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+		{
+			viewSetVisiable(menuStyle1.op_name[i],VIEW_VISIABLE);
+		}
+		return 1;
+	}
+	viewGetSize(menuStyle1.op_icon[0],&w,&h);
+	w = menuStyle1.opw-w-2;
+	h = menuStyle1.oph;
+	x = menuStyle1.mx+menuStyle1.opw-w;
+	y = menuStyle1.my+menuStyle1.tph;
+
+	oph = (h-(CFG_DRAW_W_LINE<<1))/MENU_STYLE1_OP_MAX;
+
+	menuTime2String(timestring,mtime);
+
+	if(menuStyle1.tempview<0)
+	{
+		for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+		{
+			viewSetVisiable(menuStyle1.op_name[i],VIEW_INVISIABLE);
+		}
+		menuStyl1OpPanel(w,h,x,y,1);
+		
+		R_getAsciiCharSize('0',&w,&i,R_FONT_DEFAULT);
+		menuStyle1.tempview = textView(timestring,x+CFG_DRAW_W_LINE+2,y+CFG_DRAW_W_LINE+((oph-i)>>1),R_FONT_DEFAULT|R_FONT_BRD);
+		viewSetFillColor(menuStyle1.tempview,R_COLOR_WHITE);
+	}
+	else
+		viewSetText(menuStyle1.tempview,timestring,20);
+
+    R_getAsciiCharSize('0',&w,&h,R_FONT_DEFAULT);
+    
+	if(index == 0)
+	{
+		viewSetSize(menuStyle1.selbar,w<<2,oph);
+		viewSetPosition(menuStyle1.selbar,x+CFG_DRAW_W_LINE+2,y+CFG_DRAW_W_LINE);
+	}
+	else
+	{
+		viewSetSize(menuStyle1.selbar,w<<1,oph);
+		//R_getAsciiStringSize(timestring,&w,NULL,R_FONT_DEFAULT);
+	    timestring[idxtable[index]] = 0;	
+		R_getAsciiStringSize(timestring,&i,NULL,R_FONT_DEFAULT); // i -> font height
+       // w = w-i;
+		viewSetPosition(menuStyle1.selbar,x+CFG_DRAW_W_LINE+2+i,y+CFG_DRAW_W_LINE);
+	}	 
+	
+    
+	viewSetFlag(menuStyle1.panel,VIEW_CTRL_UPDATE);
+	viewSetFlag(menuStyle1.selbar,VIEW_CTRL_UPDATE);
+
+	return 0;
+}
+s32_t menuStyle1Version(char *ver)
+{
+
+    u16_t w,h,oph,i;
+	s16_t x,y;
+
+	if(ver == NULL && menuStyle1.tempview>=0)
+	{
+		viewRelease(menuStyle1.tempview);
+		menuStyle1.tempview = -1;
+		for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+		{
+			viewSetVisiable(menuStyle1.op_name[i],VIEW_VISIABLE);
+		}
+		return 1;
+	}
+	viewGetSize(menuStyle1.op_icon[0],&w,&h);
+	w = menuStyle1.opw-w-2;
+	h = menuStyle1.oph;
+	x = menuStyle1.mx+menuStyle1.opw-w;
+	y = menuStyle1.my+menuStyle1.tph;
+
+	oph = (h-(CFG_DRAW_W_LINE<<1))/MENU_STYLE1_OP_MAX;
+
+
+	if(menuStyle1.tempview<0)
+	{
+		for(i=0;i<MENU_STYLE1_OP_MAX;i++)
+		{
+			viewSetVisiable(menuStyle1.op_name[i],VIEW_INVISIABLE);
+		}
+		menuStyl1OpPanel(w,h,x,y,1);
+
+		viewSetSize(menuStyle1.selbar,w-(CFG_DRAW_W_LINE<<1),oph);
+    
+	    viewSetPosition(menuStyle1.selbar,x+CFG_DRAW_W_LINE,y+CFG_DRAW_W_LINE);
+		
+		R_getAsciiCharSize('0',&w,&i,R_FONT_DEFAULT);
+		menuStyle1.tempview = textView(ver,x+CFG_DRAW_W_LINE+2,y+CFG_DRAW_W_LINE+((oph-i)>>1),R_FONT_DEFAULT|R_FONT_BRD);
+		viewSetFillColor(menuStyle1.tempview,R_COLOR_WHITE);
+
+
+	}	
+    
+	viewSetFlag(menuStyle1.panel,VIEW_CTRL_UPDATE);
+	viewSetFlag(menuStyle1.selbar,VIEW_CTRL_UPDATE);
+
+	return 0;	
+}
+s32_t menuStyle1Start(u32_t handle)
+{
+	MENU_INFO_T *menu=NULL;
+	MENU_TIME_T mTime;
+	int ret;
+	u32_t key,event,tempdata;
+	u16_t mainIdx,subIdx,pagecnt;
+	
+	if(handle!=MENU_TYPE_STYL1)
+		return -1;
+    ret = -1;
+
+	debug_print("menu : style1 -> start\n");
+	if(menuStyle1Show()<0)
+		goto STYLE1_END;
+   
+    menuStyle1.curLevel = 0;
+	menuStyle1.curMenu  = 0;
+	menuStyle1.curOption = 0;
+	mainIdx = menuStyle1.curOption;
+	subIdx  = 0;
+    menuStyle1SetTop(menuStyle1.curMenu,menuStyle1.titlename[menuStyle1.curMenu]);
+	menuStyle1SetOption(menuStyle1.curOption,menuStyle1.curLevel);
+    menuStyle1SetBottom(menuStyle1.curOption,menuStyle1.curLevel);
+	drawServiceHook(DRAW_AL_CHECK|DRAW_CLEAR);
+	menuStyle1.stat=MENU_STAT_SHOW;
+	while(1)
+	{
+		ret = menuGetKey(&key,&event);
+        if(ret<0)
+			continue;
+
+		if(event == MENU_EVE_URGENT) //some urgentlly event,must exit menu now.as : low powe off or others
+		{
+			 ret = event;
+			 break;
+		}
+		if(menuStyle1.curLevel == 0)
+		{
+			  if(key == MENU_KEY_CANCEL)
+			  {
+			  	  menuStyle1.curMenu++;
+			  	  if(menuStyle1.curMenu>=MENU_PAGE_MAX)
+				  	  break;
+				  else
+				  {
+					  mainIdx = 0;
+	                  subIdx  = 0;
+					  menuStyle1.curOption = 0;
+					  menuStyle1.stat=MENU_STAT_LAYOUT;
+					  menuStyle1SetTop(menuStyle1.curMenu,menuStyle1.titlename[SUB_MENU]);
+	                  menuStyle1SetOption(menuStyle1.curOption,menuStyle1.curLevel);
+                      menuStyle1SetBottom(menuStyle1.curOption,menuStyle1.curLevel);
+					  menuStyle1.stat=MENU_STAT_SHOW;
+				  }
+			  }
+			  else if(key == MENU_KEY_UP || key == MENU_KEY_DOWN)
+			  {			  	  
+				  pagecnt = menuStyle1.optionCnt[menuStyle1.curMenu];
+				  if(key == MENU_KEY_DOWN)
+				  {
+				 	   mainIdx++;
+				  	   if(mainIdx>=pagecnt)
+					  	   mainIdx = 0;
+				  }
+				  else
+				  {
+				 	   if(mainIdx!=0)
+				  	       mainIdx--;
+					   else
+					   	   mainIdx = pagecnt-1;
+				  }
+				  ret = menuStyle1SetOption(mainIdx,menuStyle1.curLevel);
+				  if(ret<0)
+				  	   mainIdx = menuStyle1.curOption;
+				  else
+				  {
+                       menuStyle1SetBottom(mainIdx,menuStyle1.curLevel);  // update bottom bar
+                       menuStyle1.curOption = mainIdx;
+				  }				  
+			  }
+			  else if(key == MENU_KEY_OK)
+			  {
+				  menu = menuStyle1.menutable[menuStyle1.curMenu]+1;
+                  menu+= mainIdx;
+
+                  ret = 0;
+				  if(menu->option_type < OPTION_TYPE_DATETIME)
+				  {
+				  	   if(menu->option_sub == MENU_INVLID)
+				       {
+				           ret = menuUserHook(menu->option_type,MENU_OP_GET,menu->config_id,(u32_t)&tempdata);
+						   if(ret>=0)
+						   	  subIdx = tempdata;
+						   if(subIdx>=menu->options)
+						   	   subIdx = 0;
+				  	   }
+					   else
+					   	   subIdx  = menu->option_sub;
+				  }				  					       
+				  else if(menu->option_type == OPTION_TYPE_DATETIME)
+				  {
+				  	  ret = menuUserHook(menu->option_type,MENU_OP_GET,menu->config_id,(u32_t)&mTime);
+				  }
+				  else if(menu->option_type == OPTION_TYPE_VERSION)
+				  {
+				  	  ret = menuUserHook(menu->option_type,MENU_OP_GET,menu->config_id,(u32_t)&tempdata);
+					  debug_print("menu : style1 start -> get version : %s\n",(char *)tempdata);
+					  menuStyle1Version((char *)tempdata);
+					  
+				  }
+
+				  if(ret<0)
+				  	   continue;
+				  menuStyle1SetTop(menuStyle1.curMenu,menu->name);
+				  if(menu->option_type == OPTION_TYPE_DATETIME)
+				  {
+				  	   menuStyle1DateTimeSet(&mTime,0);
+					   subIdx = 0;
+				  }
+				  else if(menu->option_type == OPTION_TYPE_VERSION)
+				  {
+				  	
+				  }
+				  else
+				  {
+					  menuStyle1SetOption(subIdx,menuStyle1.curLevel+1);
+					  menuStyle1SetBottom(subIdx,menuStyle1.curLevel+1); 
+				  }
+				  menuStyle1.curLevel = 1;
+			  }
+		}
+		else
+		{			  
+			  if(key == MENU_KEY_OK || key == MENU_KEY_CANCEL)
+			  {
+			  	  if(key == MENU_KEY_OK)
+			  	  {
+				  	  if(menu->option_type == OPTION_TYPE_NORMAL )
+				  	  {
+					  	   if(menuUserHook(menu->option_type,MENU_OP_SET,menu->config_id,subIdx)>=0)
+					  	       menu->option_sub = subIdx;
+						   key = MENU_KEY_CANCEL;
+						   debug_print("menu : style1 start -> ok set menu %d as %d\n",menu->option_id,menu->option_sub);
+						   
+				  	  }
+					  else if(menu->option_type == OPTION_TYPE_DATETIME)
+					  {
+					  	  subIdx++;
+						  if(subIdx>5)
+						  	 subIdx = 0;
+						  menuStyle1DateTimeSet(&mTime,subIdx);
+					  }
+			  	  }
+				  
+				  if(key == MENU_KEY_CANCEL && menu->option_type == OPTION_TYPE_DATETIME)
+				  {
+				  	   menuUserHook(menu->option_type,MENU_OP_SET,menu->config_id,(u32_t)&mTime);
+					   menuStyle1DateTimeSet(NULL,0); // end time setting
+				  }
+				  else if(menu->option_type == OPTION_TYPE_VERSION)
+				  {
+				  	   menuStyle1Version(NULL); // end time setting
+				  	   key = MENU_KEY_CANCEL;
+				  }
+				  
+				  if(key == MENU_KEY_CANCEL)
+				  {
+				  	  subIdx = 0;			  	  
+					  menuStyle1SetTop(menuStyle1.curMenu,menuStyle1.titlename[menuStyle1.curMenu]);
+		              menuStyle1SetOption(menuStyle1.curOption,menuStyle1.curLevel-1);
+	                  menuStyle1SetBottom(menuStyle1.curOption,menuStyle1.curLevel-1);
+					  menuStyle1.curLevel = 0;
+				  }
+			  }
+			  else if(key == MENU_KEY_UP || key == MENU_KEY_DOWN)
+			  {
+			  	  if(menu->option_type < OPTION_TYPE_DATETIME)
+				  {
+					  pagecnt = menu->options;
+					  if(key == MENU_KEY_DOWN)
+					  {
+					 	   subIdx++;
+					  	   if(subIdx>=pagecnt)
+						  	   subIdx = 0;
+					  }
+					  else
+					  {
+					 	   if(subIdx!=0)
+					  	       subIdx--;
+						   else
+						   	   subIdx = pagecnt-1;
+					  }
+					  ret = menuStyle1SetOption(subIdx,menuStyle1.curLevel);
+	              
+					  if(ret>=0)
+	                       menuStyle1SetBottom(subIdx,menuStyle1.curLevel);  // update bottom bar	
+			  	  }
+				  else if(menu->option_type == OPTION_TYPE_DATETIME)
+				  {
+				  	  if(key == MENU_KEY_UP)
+					  	 ret =  1;
+					  else
+					  	 ret = -1;
+					  switch(subIdx)
+					  {
+					  	  case 0: mTime.year+=ret;break;
+						  case 1: mTime.month+=ret;break;
+						  case 2: mTime.mday+=ret;break;
+						  case 3: mTime.hour+=ret;break;
+						  case 4: mTime.min+=ret;break;
+						  case 5: mTime.sec+=ret;break;
+					  }
+					  menuStyle1DateTimeSet(&mTime,subIdx);
+				  }
+			  }
+		}
+
+		drawServiceHook(DRAW_SI_CHECK);
+	}
+STYLE1_END:	
+	debug_print("menu : style1 -> end\n");
+    menuStyle1Destory(handle);
+	return ret;
+}
+
+s32_t menuStyle1IOCtrl(u32_t handle,u32_t op,u32_t para)
+{
+	if(handle!=MENU_TYPE_STYL1)
+		return -1;
+
+    if(op == MENU_OP_IO_SETMAINMENU)
+    {
+		menuStyle1.menutable[MAIN_MENU]= (MENU_INFO_T *)para;
+    }
+	else if(op == MENU_OP_IO_SETSUBMENU)
+	{
+		menuStyle1.menutable[SUB_MENU] = (MENU_INFO_T*)para;
+	}
+	else if(op == MENU_OP_IO_SETOKICON)
+	{
+		menuStyle1.icon_ok = para;
+	}
+	else if(op == MENU_OP_IO_SETBACKICON)
+	{
+		menuStyle1.icon_back = para;
+	}
+	return 0;
+}
+
+
+Menu_OP_T menuStyle1OP=
+{
+	menuStyle1Create,
+	menuStyle1Destory,
+	menuStyle1Start,
+	menuStyle1IOCtrl
+};
+
+
+
+
+#endif  // end of  #if MAXLIB_MENU_USE >0
+
+

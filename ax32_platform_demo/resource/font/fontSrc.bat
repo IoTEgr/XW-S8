@@ -1,0 +1,1 @@
+fontSrc.exe ./font.ini ./fontSrc.txt

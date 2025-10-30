@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="ax329x_sdk" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+    <Plugin Name="CMakePlugin">
+      <![CDATA[[{
+  "name": "Debug",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }]]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
+  <VirtualDirectory Name="ax32xx">
+    <VirtualDirectory Name="inc">
+      <File Name="../ax32xx/inc/ax32xx_sys.h"/>
+      <File Name="../ax32xx/inc/ax32xx.h"/>
+      <File Name="../ax32xx/inc/typedef.h"/>
+      <File Name="../ax32xx/inc/ax32xx_int.h"/>
+      <File Name="../ax32xx/inc/ax32xx_dma.h"/>
+      <File Name="../ax32xx/inc/ax32xx_cfg.h"/>
+      <File Name="../ax32xx/inc/ax32xx_wdt.h"/>
+      <File Name="../ax32xx/inc/ax32xx_gpio.h"/>
+      <File Name="../ax32xx/inc/ax32xx_uart.h"/>
+      <File Name="../ax32xx/inc/ax32xx_timer.h"/>
+      <File Name="../ax32xx/inc/ax32xx_tminf.h"/>
+      <File Name="../ax32xx/inc/ax32xx_spi.h"/>
+      <File Name="../ax32xx/inc/ax32xx_rtc.h"/>
+      <File Name="../ax32xx/inc/ax32xx_md.h"/>
+      <File Name="../ax32xx/inc/ax32xx_iic.h"/>
+      <File Name="../ax32xx/inc/ax32xx_dac.h"/>
+      <File Name="../ax32xx/inc/ax32xx_adc.h"/>
+      <File Name="../ax32xx/inc/ax32xx_sd.h"/>
+      <File Name="../ax32xx/inc/ax32xx_auadc.h"/>
+      <File Name="../ax32xx/inc/ax32xx_osd.h"/>
+      <File Name="../ax32xx/inc/ax32xx_lcd.h"/>
+      <File Name="../ax32xx/inc/ax32xx_csi.h"/>
+      <File Name="../ax32xx/inc/ax32xx_isp.h"/>
+      <File Name="../ax32xx/inc/ax32xx_mjpeg.h"/>
+      <File Name="../ax32xx/inc/ax32xx_usb.h"/>
+      <File Name="../ax32xx/inc/ax32xx_misc.h"/>
+      <File Name="../ax32xx/inc/ax329x.h"/>
+      <File Name="../ax32xx/inc/ax32xx_spr_defs.h"/>
+      <File Name="../ax32xx/inc/ax32xx_pip.h"/>
+      <File Name="../ax32xx/inc/ax32xx_emi.h"/>
+      <File Name="../ax32xx/inc/ax32xx_btuart.h"/>
+      <File Name="../ax32xx/inc/ax32xx_crc.h"/>
+      <File Name="../ax32xx/inc/ax32xx_rotate.h"/>
+      <File Name="../ax32xx/inc/ax32xx_osdcmp.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="src">
+      <File Name="../ax32xx/src/ax32xx_int.c"/>
+      <File Name="../ax32xx/src/ax32xx_sys.c"/>
+      <File Name="../ax32xx/src/ax32xx_dma.c"/>
+      <File Name="../ax32xx/src/ax32xx_wdt.c"/>
+      <File Name="../ax32xx/src/ax32xx_gpio.c"/>
+      <File Name="../ax32xx/src/ax32xx_uart.c"/>
+      <File Name="../ax32xx/src/ax32xx_timer.c"/>
+      <File Name="../ax32xx/src/ax32xx_tminf.c"/>
+      <File Name="../ax32xx/src/ax32xx_spi.c"/>
+      <File Name="../ax32xx/src/ax32xx_rtc.c"/>
+      <File Name="../ax32xx/src/ax32xx_iic.c"/>
+      <File Name="../ax32xx/src/ax32xx_dac.c"/>
+      <File Name="../ax32xx/src/ax32xx_adc.c"/>
+      <File Name="../ax32xx/src/ax32xx_auadc.c"/>
+      <File Name="../ax32xx/src/ax32xx_isp.c"/>
+      <File Name="../ax32xx/src/jpeg_table.c"/>
+      <File Name="../ax32xx/src/ax32xx_usb.c"/>
+      <File Name="../ax32xx/src/ax32xx_misc.c"/>
+      <File Name="../ax32xx/src/ax32xx_pip.c"/>
+      <File Name="../ax32xx/src/ax32xx_btuart.c"/>
+      <File Name="../ax32xx/src/ax32xx_crc.c"/>
+      <File Name="../ax32xx/src/ax32xx_emi.c"/>
+      <File Name="../ax32xx/src/ax32xx_rotate.c"/>
+      <File Name="../ax32xx/src/ax32xx_osdcmp.c"/>
+    </VirtualDirectory>
+    <File Name="../ax32xx/boot_config.h"/>
+    <File Name="../ax32xx/reset.S"/>
+    <File Name="../ax32xx/spi_boot_cfg.h"/>
+    <File Name="../ax32xx/spi_boot_cfg.S" ExcludeProjConfig=""/>
+    <VirtualDirectory Name="osd">
+      <File Name="../ax32xx/osd/ax32xx_osd.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="csi">
+      <File Name="../ax32xx/csi/ax32xx_csi.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="lcd">
+      <File Name="../ax32xx/lcd/ax32xx_lcd.c"/>
+    </VirtualDirectory>
+    <File Name="../ax32xx/ax329x.ld"/>
+    <File Name="../ax32xx/BLDRX32.S"/>
+    <VirtualDirectory Name="mjpeg">
+      <File Name="../ax32xx/mjpeg/ax32xx_mjpeg.c"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="ax329x_platform_demo">
+    <File Name="main.c"/>
+    <File Name="resource_manager.c"/>
+    <File Name="upgrade.c"/>
+    <File Name="board.c"/>
+    <File Name="board_bwv1.c"/>
+    <File Name="config.c"/>
+    <File Name="display.c"/>
+    <File Name="explorer.c"/>
+    <File Name="filelist.c"/>
+    <File Name="font.c"/>
+    <File Name="icon.c"/>
+    <VirtualDirectory Name="inc">
+      <File Name="inc/board.h"/>
+      <File Name="inc/config.h"/>
+      <File Name="inc/customer.h"/>
+      <File Name="inc/display.h"/>
+      <File Name="inc/explorer.h"/>
+      <File Name="inc/font.h"/>
+      <File Name="inc/icon.h"/>
+      <File Name="inc/resource_manager.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="resource">
+      <File Name="resource/r_palette.h"/>
+      <File Name="resource/RES.H"/>
+      <File Name="resource/resource.h"/>
+      <File Name="resource/user_icon.c"/>
+      <File Name="resource/user_icon.h"/>
+      <File Name="resource/user_str.c"/>
+      <File Name="resource/user_str.h"/>
+      <File Name="application.h"/>
+    </VirtualDirectory>
+    <File Name="configGetValue.c"/>
+    <File Name="configSystem.c"/>
+    <File Name="logo.c"/>
+    <File Name="menu.h"/>
+    <File Name="menuMovieRec.c"/>
+    <File Name="msgDeal.c"/>
+    <File Name="msgSysRecommend.c"/>
+    <File Name="msgSysUnshielded.c"/>
+    <File Name="taskManage.c"/>
+    <File Name="taskManage.h"/>
+    <File Name="taskPhotoEncode.c"/>
+    <File Name="taskPhotoEncodeMsg.c"/>
+    <File Name="taskPlayBack.c"/>
+    <File Name="taskPlayBackMsg.c"/>
+    <File Name="taskPowerOff.c"/>
+    <File Name="taskSysScanDevice.c"/>
+    <File Name="taskUsbDevice.c"/>
+    <File Name="taskVideoRecord.c"/>
+    <File Name="taskVideoRecordMsg.c"/>
+    <File Name="toolFunc.c"/>
+    <File Name="uiAsternMsg.c"/>
+    <File Name="uiMenuDateTimeMsg.c"/>
+    <File Name="uiMenuDefaultMsg.c"/>
+    <File Name="uiMenuDelCurMsg.c"/>
+    <File Name="uiMenuFormatMsg.c"/>
+    <File Name="uiMenuItemMsg.c"/>
+    <File Name="uiMenuOptionMsg.c"/>
+    <File Name="uiNoFileMsg.c"/>
+    <File Name="uiTips1Msg.c"/>
+    <File Name="uiTipsMsg.c"/>
+    <File Name="uiWin.c"/>
+    <File Name="uiWin.h"/>
+    <File Name="uiMenuVersionMsg.c"/>
+    <File Name="taskMainMenu.c"/>
+    <File Name="taskMainMenuMsg.c"/>
+    <File Name="taskGameMenu.c"/>
+    <File Name="taskGameMenuMsg.c"/>
+    <File Name="taskAudioPlayer.c"/>
+    <File Name="taskAudioPlayerMsg.c"/>
+    <File Name="game_block.c"/>
+    <File Name="game_snake.c"/>
+    <File Name="game_sokoban.c"/>
+    <File Name="game_tetris.c"/>
+    <File Name="taskGame.c"/>
+    <File Name="taskGame.h"/>
+    <File Name="game_maze.c"/>
+    <File Name="taskSettingMenu.c"/>
+    <File Name="taskApp.c"/>
+    <File Name="taskAppMsg.c"/>
+    <File Name="uiMenuPrintDensityMsg.c"/>
+    <File Name="uiMenuUsbMsg.c"/>
+    <File Name="uiMenuUsbRes.c"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="hal">
+    <VirtualDirectory Name="src">
+      <File Name="../hal/src/hal_adc.c"/>
+      <File Name="../hal/src/hal_csi.c"/>
+      <File Name="../hal/src/hal_dac.c"/>
+      <File Name="../hal/src/hal_eeprom.c"/>
+      <File Name="../hal/src/hal_gpio.c"/>
+      <File Name="../hal/src/hal_iic.c"/>
+      <File Name="../hal/src/hal_lcd.c"/>
+      <File Name="../hal/src/hal_osd.c"/>
+      <File Name="../hal/src/hal_rtc.c"/>
+      <File Name="../hal/src/hal_sd.c"/>
+      <File Name="../hal/src/hal_spi.c"/>
+      <File Name="../hal/src/hal_timer.c"/>
+      <File Name="../hal/src/hal_uart.c"/>
+      <File Name="../hal/src/hal_watermark.c"/>
+      <File Name="../hal/src/hal_sys.c"/>
+      <File Name="../hal/src/hal_auadc.c"/>
+      <File Name="../hal/src/hal_mjpeg.c"/>
+      <File Name="../hal/src/hal_int.c"/>
+      <File Name="../hal/src/hal_wdt.c"/>
+      <File Name="../hal/src/hal_stream.c"/>
+      <File Name="../hal/src/hal_emi.c"/>
+      <File Name="../hal/src/hal_osdcmp.c"/>
+      <File Name="../hal/src/hal_rotate.c"/>
+      <File Name="../hal/src/hal_lcdframe.c"/>
+      <File Name="../hal/src/hal_custom_yuv.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="inc">
+      <File Name="../hal/inc/hal_cfg.h"/>
+      <File Name="../hal/inc/hal.h"/>
+      <File Name="../hal/inc/hal_adc.h"/>
+      <File Name="../hal/inc/hal_csi.h"/>
+      <File Name="../hal/inc/hal_dac.h"/>
+      <File Name="../hal/inc/hal_eeprom.h"/>
+      <File Name="../hal/inc/hal_gpio.h"/>
+      <File Name="../hal/inc/hal_iic.h"/>
+      <File Name="../hal/inc/hal_lcd.h"/>
+      <File Name="../hal/inc/hal_md.h"/>
+      <File Name="../hal/inc/hal_osd.h"/>
+      <File Name="../hal/inc/hal_rtc.h"/>
+      <File Name="../hal/inc/hal_sd.h"/>
+      <File Name="../hal/inc/hal_spi.h"/>
+      <File Name="../hal/inc/hal_timer.h"/>
+      <File Name="../hal/inc/hal_uart.h"/>
+      <File Name="../hal/inc/hal_watermark.h"/>
+      <File Name="../hal/inc/hal_sys.h"/>
+      <File Name="../hal/inc/hal_auadc.h"/>
+      <File Name="../hal/inc/hal_mjpeg.h"/>
+      <File Name="../hal/inc/hal_int.h"/>
+      <File Name="../hal/inc/hal_wdt.h"/>
+      <File Name="../hal/inc/hal_stream.h"/>
+      <File Name="../hal/inc/hal_emi.h"/>
+      <File Name="../hal/inc/hal_osdcmp.h"/>
+      <File Name="../hal/inc/hal_rotate.h"/>
+      <File Name="../hal/inc/hal_lcdframe.h"/>
+      <File Name="../hal/inc/hal_custom_yuv.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="isp"/>
+    <VirtualDirectory Name="dusb">
+      <File Name="../hal/dusb/hal_usb_api.c"/>
+      <File Name="../hal/dusb/hal_usb_api.h"/>
+      <File Name="../hal/dusb/hal_usb_dev_enum.c"/>
+      <File Name="../hal/dusb/hal_usb_dev_enum.h"/>
+      <File Name="../hal/dusb/hal_usb_msc.c"/>
+      <File Name="../hal/dusb/hal_usb_msc.h"/>
+      <File Name="../hal/dusb/hal_usb_uac.c"/>
+      <File Name="../hal/dusb/hal_usb_uac.h"/>
+      <File Name="../hal/dusb/hal_usb_uvc.c"/>
+      <File Name="../hal/dusb/hal_usb_uvc.h"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="xos">
+    <File Name="../xos/x_cpu.c"/>
+    <File Name="../xos/x_cpu.h"/>
+    <File Name="../xos/xcfg.h"/>
+    <File Name="../xos/xdef.h"/>
+    <File Name="../xos/xerr.h"/>
+    <File Name="../xos/xmbox.c"/>
+    <File Name="../xos/xmbox.h"/>
+    <File Name="../xos/xmsgq.c"/>
+    <File Name="../xos/xmsgq.h"/>
+    <File Name="../xos/xos.c"/>
+    <File Name="../xos/xos.h"/>
+    <File Name="../xos/xwork.c"/>
+    <File Name="../xos/xwork.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="multimedia">
+    <VirtualDirectory Name="audio">
+      <File Name="../multimedia/audio/ring_buffer.h"/>
+      <File Name="../multimedia/audio/audio_playback.c"/>
+      <File Name="../multimedia/audio/audio_playback.h"/>
+      <File Name="../multimedia/audio/audio_record.c"/>
+      <File Name="../multimedia/audio/audio_record.h"/>
+      <File Name="../multimedia/audio/ring_buffer.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="video">
+      <File Name="../multimedia/video/video_record.h"/>
+      <File Name="../multimedia/video/video_playback.c"/>
+      <File Name="../multimedia/video/video_playback.h"/>
+      <File Name="../multimedia/video/video_record.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="image">
+      <File Name="../multimedia/image/image_encode.h"/>
+      <File Name="../multimedia/image/image_decode.c"/>
+      <File Name="../multimedia/image/image_decode.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="mp3">
+      <VirtualDirectory Name="inc">
+        <File Name="../multimedia/mp3/inc/avio.h"/>
+        <File Name="../multimedia/mp3/inc/config.h"/>
+        <File Name="../multimedia/mp3/inc/fixed.h"/>
+        <File Name="../multimedia/mp3/inc/frame.h"/>
+        <File Name="../multimedia/mp3/inc/global.h"/>
+        <File Name="../multimedia/mp3/inc/huffman.h"/>
+        <File Name="../multimedia/mp3/inc/layer3.h"/>
+        <File Name="../multimedia/mp3/inc/layer12.h"/>
+        <File Name="../multimedia/mp3/inc/macro.h"/>
+        <File Name="../multimedia/mp3/inc/mp3_decode_api.h"/>
+        <File Name="../multimedia/mp3/inc/software.h"/>
+        <File Name="../multimedia/mp3/inc/synth.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="wav">
+      <File Name="../multimedia/wav/alaw.c"/>
+      <File Name="../multimedia/wav/imaadpcm.c"/>
+      <File Name="../multimedia/wav/pcm.c"/>
+      <File Name="../multimedia/wav/pcm.h"/>
+      <File Name="../multimedia/wav/ulaw.c"/>
+      <File Name="../multimedia/wav/wav.c"/>
+      <File Name="../multimedia/wav/wav.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="stream">
+      <File Name="../multimedia/stream/stream.h"/>
+      <File Name="../multimedia/stream/stream.c"/>
+    </VirtualDirectory>
+    <File Name="../multimedia/user_media.h"/>
+    <File Name="../multimedia/media.h"/>
+    <File Name="../multimedia/multimedia.h"/>
+    <File Name="../multimedia/user_media.c"/>
+    <VirtualDirectory Name="avi">
+      <VirtualDirectory Name="inc">
+        <File Name="../multimedia/avi/inc/avi_std.h"/>
+        <File Name="../multimedia/avi/inc/avi.h"/>
+        <File Name="../multimedia/avi/inc/avi_api.h"/>
+        <File Name="../multimedia/avi/inc/avi_error.h"/>
+        <File Name="../multimedia/avi/inc/avi_odml.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <File Name="../multimedia/user_effect.c"/>
+    <VirtualDirectory Name="btcom">
+      <VirtualDirectory Name="inc">
+        <File Name="../multimedia/btcom/inc/btcom.h"/>
+        <File Name="../multimedia/btcom/inc/btcom_inner.h"/>
+        <File Name="../multimedia/btcom/inc/btcom_user.h"/>
+        <File Name="../multimedia/btcom/inc/btcom_stream.h"/>
+      </VirtualDirectory>
+      <File Name="../multimedia/btcom/btcom_user.c"/>
+      <VirtualDirectory Name="src"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="unifont">
+      <File Name="../multimedia/unifont/ebook_font.c"/>
+      <File Name="../multimedia/unifont/ebook_port.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="algorithm">
+      <VirtualDirectory Name="inc">
+        <File Name="../multimedia/algorithm/inc/frame.h"/>
+        <File Name="../multimedia/algorithm/inc/imageL_encode.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="src"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="minilzo">
+      <VirtualDirectory Name="inc">
+        <File Name="../multimedia/minilzo/inc/lzoconf.h"/>
+        <File Name="../multimedia/minilzo/inc/lzodefs.h"/>
+        <File Name="../multimedia/minilzo/inc/minilzo.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="src">
+        <File Name="../multimedia/minilzo/src/minilzo.c"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="device">
+    <VirtualDirectory Name="coms_sensor">
+      <File Name="../device/cmos_sensor/cmos_sensor.c"/>
+      <File Name="../device/cmos_sensor/cmos_sensor.h"/>
+      <File Name="../device/cmos_sensor/SENSOR_BF2013.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_BF3016.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_BF3703.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC0307.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC0308.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC0309.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC0328.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC1004.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_H42.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_H7640.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_HM1055.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_IT03A1.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_NT99141.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_NT99142.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_OV7670.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_OV7725.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_OV9710.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_OV9732.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SC1045.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SIV100B.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SIV120B.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SIV121DS.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SP1409.c" ExcludeProjConfig=""/>
+      <File Name="../device/cmos_sensor/SENSOR_H62.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC1034.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_OV7736.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SP140A.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC1054.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC1064.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_H63.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_GC1084.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_H63P.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_BF3a03after.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_BF3a03front.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_SC030IOT.c"/>
+      <File Name="../device/cmos_sensor/SENSOR_BF20A6.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="tft_lcd">
+      <File Name="../device/tft_lcd/tft_lcd.h"/>
+      <File Name="../device/tft_lcd/lcd_mcu_st7789.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_jl_lcd.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_st7282.c"/>
+      <File Name="../device/tft_lcd/tft_lcd.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_5420.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_r61509v.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_ili8961.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_ili9342c.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_ili9328.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_hx8352b.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_st7789v.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_hx8352c.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_hx8357b.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_ili9806e.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_ota5182.c"/>
+      <File Name="../device/tft_lcd/lcd_rgb_st7701.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_lgdp4532.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_9225G.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_st7789_666format.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_ili9341.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_nv3030a.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_nv3030b.c"/>
+      <File Name="../device/tft_lcd/lcd_mcu_r61505v.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="printer">
+      <File Name="../device/printer/printer.c"/>
+      <File Name="../device/printer/printer.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="openImage">
+      <File Name="../device/openImage/openImage.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="openPrinter">
+      <File Name="../device/openPrinter/openPrinter.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="masfImage">
+      <File Name="../device/masfImage/masfImage.h"/>
+      <File Name="../device/masfImage/masfprint.h"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="bwlib">
+    <VirtualDirectory Name="nvfs">
+      <File Name="../bwlib/nvfs/nvfs.h"/>
+      <File Name="../bwlib/nvfs/nvfs.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="fs">
+      <VirtualDirectory Name="inc">
+        <File Name="../bwlib/fs/inc/diskio.h"/>
+        <File Name="../bwlib/fs/inc/ff.h"/>
+        <File Name="../bwlib/fs/inc/ffconf.h"/>
+        <File Name="../bwlib/fs/inc/fs.h"/>
+        <File Name="../bwlib/fs/inc/integer.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <File Name="../bwlib/bwlib.h"/>
+    <VirtualDirectory Name="maxlib">
+      <VirtualDirectory Name="std">
+        <File Name="../bwlib/Maxlib/std/misc.c"/>
+        <File Name="../bwlib/Maxlib/std/misc.h"/>
+        <File Name="../bwlib/Maxlib/std/std_math.c"/>
+        <File Name="../bwlib/Maxlib/std/std_math.h"/>
+        <File Name="../bwlib/Maxlib/std/str.c"/>
+        <File Name="../bwlib/Maxlib/std/str.h"/>
+        <File Name="../bwlib/Maxlib/std/typedef.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="res">
+        <File Name="../bwlib/Maxlib/res/R_string.h"/>
+        <File Name="../bwlib/Maxlib/res/ascii.c"/>
+        <File Name="../bwlib/Maxlib/res/ascii.h"/>
+        <File Name="../bwlib/Maxlib/res/ascii_default.c"/>
+        <File Name="../bwlib/Maxlib/res/ascii_default.h"/>
+        <File Name="../bwlib/Maxlib/res/ascii_default_draw.c"/>
+        <File Name="../bwlib/Maxlib/res/R.c"/>
+        <File Name="../bwlib/Maxlib/res/R.h"/>
+        <File Name="../bwlib/Maxlib/res/R_icon.c"/>
+        <File Name="../bwlib/Maxlib/res/R_icon.h"/>
+        <File Name="../bwlib/Maxlib/res/R_string.c"/>
+        <File Name="../bwlib/Maxlib/res/ascii_num3.c"/>
+        <File Name="../bwlib/Maxlib/res/ascii_num3.h"/>
+        <File Name="../bwlib/Maxlib/res/ascii_num3_draw.c"/>
+      </VirtualDirectory>
+      <File Name="../bwlib/Maxlib/maxlib_config.h"/>
+      <File Name="../bwlib/Maxlib/max.h"/>
+      <File Name="../bwlib/Maxlib/max_user.c"/>
+      <File Name="../bwlib/Maxlib/max_user.h"/>
+      <File Name="../bwlib/Maxlib/maxlib.h"/>
+      <File Name="../bwlib/Maxlib/uiDraw.c"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="sUI">
+    <File Name="../sUI/debug.h"/>
+    <File Name="../sUI/dialog.c"/>
+    <File Name="../sUI/dialog.h"/>
+    <File Name="../sUI/frameWin.c"/>
+    <File Name="../sUI/frameWin.h"/>
+    <File Name="../sUI/imageIcon.c"/>
+    <File Name="../sUI/imageIcon.h"/>
+    <File Name="../sUI/itemManage.c"/>
+    <File Name="../sUI/itemManage.h"/>
+    <File Name="../sUI/menuItem.c"/>
+    <File Name="../sUI/menuItem.h"/>
+    <File Name="../sUI/menuItemEx.h"/>
+    <File Name="../sUI/menuOption.c"/>
+    <File Name="../sUI/menuOption.h"/>
+    <File Name="../sUI/mType.h"/>
+    <File Name="../sUI/progressBar.c"/>
+    <File Name="../sUI/progressBar.h"/>
+    <File Name="../sUI/rect.c"/>
+    <File Name="../sUI/rect.h"/>
+    <File Name="../sUI/stringIcon.c"/>
+    <File Name="../sUI/stringIcon.h"/>
+    <File Name="../sUI/sUI.h"/>
+    <File Name="../sUI/tips.h"/>
+    <File Name="../sUI/uiAlloc.c"/>
+    <File Name="../sUI/uiAlloc.h"/>
+    <File Name="../sUI/userDef.h"/>
+    <File Name="../sUI/widget.c"/>
+    <File Name="../sUI/widget.h"/>
+    <File Name="../sUI/winManage.c"/>
+    <File Name="../sUI/winManage.h"/>
+    <File Name="../sUI/memPool.c"/>
+    <File Name="../sUI/memPool.h"/>
+    <File Name="../sUI/widgetManage.c"/>
+    <File Name="../sUI/widgetManage.h"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="ap32" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g -Wall" C_Options="-Os;-Wall;-mhard-div" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="../bwlib"/>
+      </Compiler>
+      <Linker Options="-T../ax32xx/ax329x.ld -Map=output/$(ProjectName).map" Required="yes">
+        <LibraryPath Value="."/>
+        <LibraryPath Value="Debug"/>
+        <LibraryPath Value="../bwlib"/>
+        <LibraryPath Value="C:/MinGW-4.7.1/lib/gcc/or1k-elf/4.9.1"/>
+        <LibraryPath Value="C:/MinGW-4.7.1/or1k-elf/lib"/>
+        <Library Value="MasfImage"/>
+        <Library Value="OpenPrinter_S5"/>
+        <Library Value="OpenImage_S5"/>
+        <Library Value="btcom"/>
+        <Library Value="algorithm"/>
+        <Library Value="watermark"/>
+        <Library Value="interface"/>
+        <Library Value="mp3"/>
+        <Library Value="sd"/>
+        <Library Value="avi"/>
+        <Library Value="fs"/>
+        <Library Value="c"/>
+        <Library Value="gcc"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).elf" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild>
+        <Command Enabled="yes">echo #ifndef __VERSION_INFO_H__&gt;version.h</Command>
+        <Command Enabled="yes">echo #define __VERSION_INFO_H__&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo.&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_MAIN 1 &gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_SUB 0 &gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_TIME "%date:~0,10% %time:~0,8%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_DATE  "%date:~0,4%%date:~5,2%%date:~8,2%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_YEAR "%date:~0,4%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_MONTH "%date:~5,2%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_DAY "%date:~8,2%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo.&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #endif //__VERSION_INFO_H__&gt;&gt;version.h</Command>
+        <Command Enabled="yes">or1k-elf-gcc  -x assembler-with-cpp -E -P -I../ax32xx/inc  -o  ../ax32xx/ax329x.ld ../ax32xx/ax329x_template.ld</Command>
+      </PreBuild>
+      <PostBuild>
+        <Command Enabled="yes">or1k-elf-objcopy -O binary $(IntermediateDirectory)/$(ProjectName).elf ./output/$(ProjectName).bin</Command>
+        <Command Enabled="yes">or1k-elf-size -A $(IntermediateDirectory)/$(ProjectName).elf</Command>
+        <Command Enabled="yes">./output/elfsym.exe ./output/order.ini ./Debug/$(ProjectName).elf ./output/list.tmp</Command>
+        <Command Enabled="yes">.\output\make.bat $(ProjectName).bin</Command>
+        <Command Enabled="yes">or1k-elf-objdump -d $(IntermediateDirectory)/$(ProjectName).elf &gt;./output/$(ProjectName).lst</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="ap32" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

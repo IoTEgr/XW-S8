@@ -1,0 +1,14 @@
+list  
+[RAM]
+sensor_cmd = $(devSensor_Cmd)
+_res_inf_tab_addr = $(_res_res_inf_tab_addr)
+_res_inf_tab_len = $(_res_res_inf_tab_len)
+[ORDER]
+cb_mem_rwex = $(cb_mem_rwex) 
+cb_FIFO2mem = $(cb_FIFO2mem) 
+cb_mem2FIFO = $(cb_mem2FIFO) 
+
+Sensor_DebugRegister = $(Sensor_DebugRegister)
+Sensor_GetID = $(Sensor_GetID)
+isp_debug_write = $(isp_debug_write)
+isp_debug_read = $(isp_debug_read)

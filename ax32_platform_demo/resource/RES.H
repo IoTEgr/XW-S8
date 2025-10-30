@@ -1,0 +1,103 @@
+/* !!! Do not manually modify this file in the production stage !!!
+ * This file is automatically created by MakeResBin.exe,
+ * and used in the production stage.*/
+
+#ifndef __RES_H_
+#define __RES_H_
+
+#define         RES_APP_QR              	0
+#define         RES_AUDIO_PLAYER_DEMO   	1
+#define         RES_CAM_INIT            	2
+#define         RES_EBOOK_FONT20        	3
+#define         RES_FRAME0              	4
+#define         RES_FRAME1              	5
+#define         RES_FRAME10             	6
+#define         RES_FRAME11             	7
+#define         RES_FRAME12             	8
+#define         RES_FRAME13             	9
+#define         RES_FRAME14             	10
+#define         RES_FRAME15             	11
+#define         RES_FRAME16             	12
+#define         RES_FRAME17             	13
+#define         RES_FRAME18             	14
+#define         RES_FRAME19             	15
+#define         RES_FRAME2              	16
+#define         RES_FRAME20             	17
+#define         RES_FRAME21             	18
+#define         RES_FRAME3              	19
+#define         RES_FRAME4              	20
+#define         RES_FRAME5              	21
+#define         RES_FRAME6              	22
+#define         RES_FRAME7              	23
+#define         RES_FRAME8              	24
+#define         RES_FRAME9              	25
+#define         RES_GAMEMENU_BK         	26
+#define         RES_GAMEMENU_BOLL       	27
+#define         RES_GAMEMENU_MAZE       	28
+#define         RES_GAMEMENU_MUSIC      	29
+#define         RES_GAMEMENU_PUSHBOX    	30
+#define         RES_GAMEMENU_RB         	31
+#define         RES_GAMEMENU_SNAKE      	32
+#define         RES_GAME_BLOCK_BK0      	33
+#define         RES_GAME_BLOCK_BK1      	34
+#define         RES_GAME_BLOCK_BK2      	35
+#define         RES_GAME_BLOCK_BK3      	36
+#define         RES_GAME_BLOCK_ICON     	37
+#define         RES_GAME_BLOCK_KNOCK    	38
+#define         RES_GAME_BLOCK_MAP      	39
+#define         RES_GAME_MAZE_MAP       	40
+#define         RES_GAME_SNAKE_ICON     	41
+#define         RES_GAME_SOKOBAN_ICON   	42
+#define         RES_GAME_SOKOBAN_MAP    	43
+#define         RES_GAME_TETRIS_BK      	44
+#define         RES_GAME_TETRIS_ICON    	45
+#define         RES_ICON_BACKWARD       	46
+#define         RES_ICON_FORWARD        	47
+#define         RES_MAINMENU_APP        	48
+#define         RES_MAINMENU_BK         	49
+#define         RES_MAINMENU_GAME       	50
+#define         RES_MAINMENU_PHOTO      	51
+#define         RES_MAINMENU_PLAYBACK   	52
+#define         RES_MAINMENU_SETTING    	53
+#define         RES_MAINMENU_VIDEO      	54
+#define         RES_MUSIC_KEY_SOUND     	55
+#define         RES_MUSIC_PHOTO_FOCUS   	56
+#define         RES_MUSIC_PHOTO_TIME    	57
+#define         RES_MUSIC_POWER_OFF     	58
+#define         RES_MUSIC_POWER_ON      	59
+#define         RES_MUSIC_TAKE_PHOTO    	60
+#define         RES_NUM_0               	61
+#define         RES_NUM_1               	62
+#define         RES_NUM_2               	63
+#define         RES_NUM_3               	64
+#define         RES_NUM_4               	65
+#define         RES_NUM_5               	66
+#define         RES_NUM_6               	67
+#define         RES_NUM_7               	68
+#define         RES_NUM_8               	69
+#define         RES_NUM_9               	70
+#define         RES_NUM_BLANK           	71
+#define         RES_NUM_COLON           	72
+#define         RES_NUM_SLASH           	73
+#define         RES_OEM2UNI936          	74
+#define         RES_OSD_SOURCE          	75
+#define         RES_PALETTE             	76
+#define         RES_POWER_OFF           	77
+#define         RES_POWER_ON            	78
+#define         RES_RESFONT             	79
+#define         RES_RESFONTIDX          	80
+#define         RES_SETTINGMENU_PRINTER_DENSITY	81
+#define         RES_SETTINGMENU_PRINTER_MODE	82
+#define         RES_SETTING_VOLUME_BLACK_BAR	83
+#define         RES_SETTING_VOLUME_WHITE_BAR	84
+#define         RES_STR_VERSION         	85
+#define         RES_UNI2OEM936          	86
+#define         RES_USBBAT_10           	87
+#define         RES_USBBAT_100          	88
+#define         RES_USBBAT_30           	89
+#define         RES_USBBAT_50           	90
+#define         RES_USBBAT_70           	91
+#define         RES_USBMODE_MSC         	92
+#define         RES_USBMODE_PCCAM       	93
+
+#endif

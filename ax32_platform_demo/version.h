@@ -1,0 +1,12 @@
+#ifndef __VERSION_INFO_H__
+#define __VERSION_INFO_H__
+
+#define VERSION_MAIN 1 
+#define VERSION_SUB 0 
+#define VERSION_TIME "2025/10/28 14:41:50"
+#define VERSION_DATE  "20251028"
+#define VERSION_YEAR "2025"
+#define VERSION_MONTH "10"
+#define VERSION_DAY "28"
+
+#endif //__VERSION_INFO_H__

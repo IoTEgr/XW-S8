@@ -1,0 +1,12 @@
+echo #ifndef __VERSION_INFO_H__>version.h
+echo #define __VERSION_INFO_H__>>version.h
+echo.>>version.h
+echo #define VERSION_MAIN 1 >>version.h
+echo #define VERSION_SUB 0 >>version.h
+echo #define VERSION_TIME "%date:~0,10% %time:~0,8%">>version.h
+echo #define VERSION_DATE  "%date:~0,4%%date:~5,2%%date:~8,2%">>version.h
+echo #define VERSION_YEAR "%date:~0,4%">>version.h
+echo #define VERSION_MONTH "%date:~5,2%">>version.h
+echo #define VERSION_DAY "%date:~8,2%">>version.h
+echo.>>version.h
+echo #endif //__VERSION_INFO_H__>>version.h

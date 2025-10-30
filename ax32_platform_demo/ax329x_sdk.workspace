@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="ax329x_sdk" Database=".codelite/ax329x_sdk.tags">
+  <Project Name="ax329x_sdk" Path="ax329x_sdk.project" Active="Yes"/>
+  <Project Name="ax329x_sdk" Path="ax329x_sdk.project"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Project Name="ax329x_sdk" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="no">
+      <Project Name="ax329x_sdk" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
