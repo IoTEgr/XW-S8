@@ -40,6 +40,9 @@ static u16 id_w_st,id_h_st;
 static u16 wm_pixel_w,wm_pixel_h;
 static u8  wm_pic_num;
 
+// 背景亮度阈值，如果背景亮度超过此值，认为是白色背景，需要反转水印为黑色
+#define BRIGHTNESS_THRESHOLD 160
+
 #if 1
 
 extern u8* small_pic_id_buf[20];
@@ -56,14 +59,162 @@ extern u32  small_pic_id[20];
 
 #endif
 
-//-----
+/*******************************************************************************
+* Function Name  : yuv420_draw_buf_adaptive
+* Description    : 自适应绘制水印，根据背景亮度逐像素选择颜色
+* Input          : u8 *dst_ybuf: 目标YUV缓冲区
+                   u16 dst_w: 目标宽度
+                   u16 dst_h: 目标高度
+                   s16 draw_x: 绘制X位置
+                   s16 draw_y: 绘制Y位置
+                   u16 draw_w: 绘制宽度
+                   u16 draw_h: 绘制高度
+                   u8 *src_ybuf: 源水印缓冲区
+                   u16 src_w: 源水印宽度
+                   u16 src_h: 源水印高度
+                   u8 alpha_y: Y分量透明色
+                   u8 alpha_uv: UV分量透明色
+* Output         : None
+* Return         : None
+*******************************************************************************/
+static void yuv420_draw_buf_adaptive(u8 *dst_ybuf, u16 dst_w, u16 dst_h, s16 draw_x, s16 draw_y, 
+                                      u16 draw_w, u16 draw_h, u8 *src_ybuf, u16 src_w, u16 src_h, 
+                                      u8 alpha_y, u8 alpha_uv)
+{
+	u16 i, j;
+	u16 draw_offset_x, draw_offset_y;
+	u8 *dy, *duv, *sy, *suv;
+	u8 bg_brightness;
+	u8 src_y_val, src_uv_val;
+	u8 output_y;
 
+	draw_x &= ~0x1;		// align
+	draw_y &= ~0x1;		// align
+	draw_w &= ~0x1;		// align
+	draw_h &= ~0x1;		// align
+
+	if((draw_x + draw_w <= 0) || (draw_y + draw_h <= 0) || (draw_x >= dst_w) || (draw_y >= dst_h))
+	{
+		return;
+	}
+
+	if(draw_x < 0)
+	{
+		draw_offset_x = -draw_x;
+		draw_x = 0;
+	}
+	else
+	{
+		draw_offset_x = 0;
+	}
+	
+	if(draw_y < 0)
+	{
+		draw_offset_y = -draw_y;
+		draw_y = 0;
+	}
+	else
+	{
+		draw_offset_y = 0;
+	}
+
+	if(draw_x + src_w > dst_w)
+	{
+		draw_w = dst_w - draw_x;
+	}
+	else
+	{
+		draw_w = src_w - draw_offset_x;
+	}
+
+	if(draw_y + src_h > dst_h)
+	{
+		draw_h = dst_h - draw_y;
+	}
+	else
+	{
+		draw_h = src_h - draw_offset_y;
+	}
+	
+	dy = dst_ybuf + dst_w * draw_y + draw_x;
+	duv = dst_ybuf + dst_w * dst_h + dst_w * draw_y / 2 + draw_x;
+	sy = src_ybuf;
+	suv = src_ybuf + src_w * src_h;
+
+	// 逐像素绘制，根据背景亮度自适应反转
+	for(j = 0; j < draw_h; j += 2)
+	{
+		for(i = 0; i < draw_w; i++)
+		{
+			src_y_val = *(sy + i + draw_offset_x);
+			src_uv_val = *(suv + i + draw_offset_x);
+			
+			// 跳过透明像素（灰色背景）
+			if((src_y_val != alpha_y) || (src_uv_val != alpha_uv))
+			{
+				// 获取当前位置的背景亮度
+				bg_brightness = *(dy + i);
+				
+				// 根据背景亮度决定是否反转水印颜色
+				if(bg_brightness > BRIGHTNESS_THRESHOLD)
+				{
+					// 背景亮，使用黑色水印（反转）
+					output_y = 255 - src_y_val;
+				}
+				else
+				{
+					// 背景暗，使用白色水印（原样）
+					output_y = src_y_val;
+				}
+				
+				*(dy + i) = output_y;
+				*(duv + i) = src_uv_val;
+			}
+		}
+
+		dy += dst_w;
+		sy += src_w;
+
+		// 第二行
+		for(i = 0; i < draw_w; i++)
+		{
+			src_y_val = *(sy + i + draw_offset_x);
+			src_uv_val = *(suv + i + draw_offset_x);
+			
+			// 跳过透明像素（灰色背景）
+			if((src_y_val != alpha_y) || (src_uv_val != alpha_uv))
+			{
+				// 获取当前位置的背景亮度
+				bg_brightness = *(dy + i);
+				
+				// 根据背景亮度决定是否反转水印颜色
+				if(bg_brightness > BRIGHTNESS_THRESHOLD)
+				{
+					// 背景亮，使用黑色水印（反转）
+					output_y = 255 - src_y_val;
+				}
+				else
+				{
+					// 背景暗，使用白色水印（原样）
+					output_y = src_y_val;
+				}
+				
+				*(dy + i) = output_y;
+				*(duv + i) = src_uv_val;
+			}
+		}
+		
+		dy += dst_w;
+		sy += src_w;
+		duv += dst_w;
+		suv += src_w;
+	}
+}
 
 
 
 static int watermark_bmp2yuv_set(u8* ydst_buf,u16 dst_w,u16 dst_h,u16 pos_x,u16 pos_y,char time_str)
 {
-	
 	if(time_str == '0')
 		SysCtrl.timestemp_idx =0;
 	else if(time_str == '1')
@@ -96,8 +247,11 @@ static int watermark_bmp2yuv_set(u8* ydst_buf,u16 dst_w,u16 dst_h,u16 pos_x,u16 
 	//if(p_lcd_buffer_st)
 	{
 //		u16 lcd_w,lcd_h;
-		//small_pic_id_buf
-		yuv420_draw_buf(ydst_buf,dst_w,dst_h,pos_x,pos_y,id_w_st,id_h_st,small_pic_id_buf[SysCtrl.timestemp_idx],id_w_st,id_h_st,0x7f,YUV_ALPHA_UV);
+		// 使用自适应绘制函数，逐像素根据背景亮度决定颜色
+		// 不再需要提前计算整体亮度或反转整个水印
+		yuv420_draw_buf_adaptive(ydst_buf, dst_w, dst_h, pos_x, pos_y, id_w_st, id_h_st, 
+		                          small_pic_id_buf[SysCtrl.timestemp_idx], id_w_st, id_h_st, 
+		                          0x7f, YUV_ALPHA_UV);
 		//#endif
 		ax32xx_sysDcacheWback((u32)ydst_buf,dst_w*dst_h*3/2);
 		//ax32xx_sysDcacheFlush((u32)ydst_buf,640*480*3/2);

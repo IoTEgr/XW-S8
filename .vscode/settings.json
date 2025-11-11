@@ -16,9 +16,5 @@
             "command": "extension.execute",
             "priority": 4
         }
-    ],
-    "files.associations": {
-        "hal_uart.h": "c",
-        "application.h": "c"
-    }
+    ]
 }

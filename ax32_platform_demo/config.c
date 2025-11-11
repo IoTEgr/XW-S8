@@ -41,14 +41,14 @@ static void rtcTimeReset()
 		rtcTime->min = configGet(CONFIG_ID_MIN);
 		rtcTime->sec = configGet(CONFIG_ID_SEC);
     #else
-		rtcTime->year = 2021;
-		rtcTime->month =9;
-		rtcTime->day = 9;
-		rtcTime->hour = 0;
-		rtcTime->min = 0;
-		rtcTime->sec = 0;
+		rtcTime->year = atoi(VERSION_YEAR);
+		rtcTime->month = atoi(VERSION_MONTH);
+		rtcTime->day = atoi(VERSION_DAY);
+		rtcTime->hour = atoi(VERSION_HOUR);
+		rtcTime->min = atoi(VERSION_MIN);
+		rtcTime->sec = atoi(VERSION_SEC);
     #endif		
-		hal_rtcTimeSet(rtcTime); // default time ->2017/01/01 00:00:00
+		hal_rtcTimeSet(rtcTime); // default time from VERSION_TIME
 }
 
 
@@ -69,9 +69,9 @@ s32_t userConfigReset(u8 all)
 		configSet(CONFIG_ID_MONTH,			  atoi(VERSION_MONTH));
 		configSet(CONFIG_ID_MDAY,			  atoi(VERSION_DAY));
 		configSet(CONFIG_ID_WDAY,			  0);
-		configSet(CONFIG_ID_HOUR,			  0);
-		configSet(CONFIG_ID_MIN,			  0);
-		configSet(CONFIG_ID_SEC,			  0);
+		configSet(CONFIG_ID_HOUR,			  atoi(VERSION_HOUR));
+		configSet(CONFIG_ID_MIN,			  atoi(VERSION_MIN));
+		configSet(CONFIG_ID_SEC,			  atoi(VERSION_SEC));
 		rtcTimeReset();
 	}
 

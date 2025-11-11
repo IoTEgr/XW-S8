@@ -287,14 +287,14 @@ int init(void)
 		rtcTime->min = configGet(CONFIG_ID_MIN);
 		rtcTime->sec = configGet(CONFIG_ID_SEC);
 #else
-		rtcTime->year = 2021;
-		rtcTime->month = 9;
-		rtcTime->day = 9;
-		rtcTime->hour = 0;
-		rtcTime->min = 0;
-		rtcTime->sec = 0;
+		rtcTime->year = atoi(VERSION_YEAR);
+		rtcTime->month = atoi(VERSION_MONTH);
+		rtcTime->day = atoi(VERSION_DAY);
+		rtcTime->hour = atoi(VERSION_HOUR);
+		rtcTime->min = atoi(VERSION_MIN);
+		rtcTime->sec = atoi(VERSION_SEC);
 #endif
-		hal_rtcTimeSet(rtcTime); // default time ->2017/01/01 00:00:00
+		hal_rtcTimeSet(rtcTime); // default time from VERSION_TIME
 	}
 	SysCtrl.pip_mode = 0;
 	SysCtrl.f_update = 0;

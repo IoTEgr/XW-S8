@@ -84,7 +84,7 @@
 #define MSC_LABLE_EN 0 // 0: disable , 1: enable
 #define MSC_LABEL "JRX"
 
-#define SOFTWARE_VERSION "V2.2-20251027"
+#define SOFTWARE_VERSION "V2.3-20251110"
 
 #define HAL_MXWAPP_PRINTER_SUPPORT 1
 #define HAL_MULTIPLE_PRINTER

@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=jingcheng.huang
-Date                   :=28/10/2025
+Date                   :=11/11/2025
 CodeLitePath           :="C:\Program Files\CodeLite"
 LinkerName             :=C:/MinGW-4.7.1/bin/or1k-elf-ld.exe
 SharedObjectLinkerName :=C:/MinGW-4.7.1/bin/or1k-elf-g++.exe -shared -fPIC
@@ -139,6 +139,9 @@ PreBuild:
 	echo #define VERSION_YEAR "%date:~0,4%">>version.h
 	echo #define VERSION_MONTH "%date:~5,2%">>version.h
 	echo #define VERSION_DAY "%date:~8,2%">>version.h
+	echo #define VERSION_HOUR "%time:~0,2%">>version.h
+	echo #define VERSION_MIN "%time:~3,2%">>version.h
+	echo #define VERSION_SEC "%time:~6,2%">>version.h
 	echo.>>version.h
 	echo #endif //__VERSION_INFO_H__>>version.h
 	or1k-elf-gcc  -x assembler-with-cpp -E -P -I../ax32xx/inc  -o  ../ax32xx/ax329x.ld ../ax32xx/ax329x_template.ld

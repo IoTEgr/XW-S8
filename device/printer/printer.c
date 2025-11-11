@@ -1892,7 +1892,6 @@ u8 printer_print(u8 *buf, u16 w, u16 h, s16 level, u8 print_mode, u8 batteryValu
 	u8 ret = 0;
 	if (SysCtrl.credit_flag) // 已验证
 	{
-
 		// level = level/1000*4;
 		// deg_Printf("Local level = %d\n",level);
 		ret = Authorization_LocalPrint(buf, w, h, level, print_mode, batteryValue);
@@ -1901,7 +1900,8 @@ u8 printer_print(u8 *buf, u16 w, u16 h, s16 level, u8 print_mode, u8 batteryValu
 	{
 		ret = unAuthorized_LocalPrint(buf, w, h, level, print_mode, batteryValue);
 	}
-
+	hal_gpioInit(GPIO_PF, GPIO_PIN11, GPIO_INPUT, GPIO_PULL_FLOATING);
+	hal_gpioInit(GPIO_PE, GPIO_PIN0, GPIO_INPUT, GPIO_PULL_FLOATING);
 	return ret;
 }
 

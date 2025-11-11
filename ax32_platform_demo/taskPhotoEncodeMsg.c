@@ -334,8 +334,6 @@ static int photoKeyMsgPhoto(winHandle handle,uint32 parameNum,uint32* parame)
 						close(fd);
 						photoPrinterTipsShow(handle,false,0,0);
 						drawUIService(true);
-
-
 					}
 					else
 					{
@@ -1376,6 +1374,19 @@ static int photoSysMsgMD(winHandle handle,uint32 parameNum,uint32* parame)
 extern bool key_focus_model;
 static int photoOpenWin(winHandle handle,uint32 parameNum,uint32* parame)
 {
+	INT32U sensorValue = 0;
+	if (boardIoctrl(SysCtrl.bfd_hall, IOCTRL_HALL_CHECK, (INT32U)&sensorValue) >= 0)
+	{
+		if (sensorValue == 0)
+		{
+			sensor_rotate(0);
+		}
+		else
+		{
+			sensor_rotate(1);
+		}
+		SysCtrl.hall_stat = sensorValue;
+	}
 	deg_Printf("photo Open Win!!!\n");
 		SysCtrl.photo_focus=PHOTO_FOCUS_ICON_NONE;
 	photoFocusShow(handle);
@@ -1429,7 +1440,6 @@ static int photoOpenWin(winHandle handle,uint32 parameNum,uint32* parame)
 		SysCtrl.cartoon_mode=1;
 		SysCtrl.cartoon_show_cnt=0;
 	}
-
 	return 0;
 }
 static int photoCloseWin(winHandle handle,uint32 parameNum,uint32* parame)

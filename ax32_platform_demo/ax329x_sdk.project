@@ -601,6 +601,9 @@
         <Command Enabled="yes">echo #define VERSION_YEAR "%date:~0,4%"&gt;&gt;version.h</Command>
         <Command Enabled="yes">echo #define VERSION_MONTH "%date:~5,2%"&gt;&gt;version.h</Command>
         <Command Enabled="yes">echo #define VERSION_DAY "%date:~8,2%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_HOUR "%time:~0,2%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_MIN "%time:~3,2%"&gt;&gt;version.h</Command>
+        <Command Enabled="yes">echo #define VERSION_SEC "%time:~6,2%"&gt;&gt;version.h</Command>
         <Command Enabled="yes">echo.&gt;&gt;version.h</Command>
         <Command Enabled="yes">echo #endif //__VERSION_INFO_H__&gt;&gt;version.h</Command>
         <Command Enabled="yes">or1k-elf-gcc  -x assembler-with-cpp -E -P -I../ax32xx/inc  -o  ../ax32xx/ax329x.ld ../ax32xx/ax329x_template.ld</Command>

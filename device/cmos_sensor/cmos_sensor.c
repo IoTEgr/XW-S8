@@ -732,7 +732,8 @@ void sensorInit(void)
 	sensor_frame_rate_adapt(0, devSensorOp->hvb_adapt.fps);
 #endif
 	// }
-	sensor_rotate(!senser_select);
+	// sensor_rotate(!senser_select);
+	SysCtrl.hall_stat = 0;
 
 #endif
 #if HAL_CFG_ISP_SUPPORT

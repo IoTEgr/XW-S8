@@ -751,6 +751,19 @@ void recordTimeCount1S(void)
 
 static int videoOpenWin(winHandle handle,uint32 parameNum,uint32* parame)
 {
+	INT32U sensorValue = 0;
+	if (boardIoctrl(SysCtrl.bfd_hall, IOCTRL_HALL_CHECK, (INT32U)&sensorValue) >= 0)
+	{
+		if (sensorValue == 0)
+		{
+			sensor_rotate(0);
+		}
+		else
+		{
+			sensor_rotate(1);
+		}
+		SysCtrl.hall_stat = sensorValue;
+	}
 	deg_Printf("video Open Win!!!%d %d\n",SysCtrl.sdcard,SysCtrl.usb);
 	layout_version_get();
 	winSetResid(winItem(handle,VIDEO_MODE_ID),R_ID_ICON_MTRECORD);
